@@ -28,6 +28,8 @@ public class Card {
                 value.getValue() + seed.getSeed(),
                 "drawable", context.getPackageName()));
 
+        imageView.setImageDrawable(drawable);
+
         this.imageView.setOnClickListener((view) -> {
 
             if(MainActivity.revealed == 0){
@@ -44,6 +46,7 @@ public class Card {
                     setImage(MainActivity.back);
                     MainActivity.revealed_Card.setImage(MainActivity.back);
                 }
+                MainActivity.revealed = 0;
             }
         });
     }
