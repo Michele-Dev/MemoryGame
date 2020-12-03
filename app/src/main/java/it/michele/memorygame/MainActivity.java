@@ -48,12 +48,13 @@ public class MainActivity extends AppCompatActivity {
 
         back = getResources().getDrawable(R.drawable.back_back);
 
-        //cards = new LinkedList<>();
-
         Random random = new Random();
         Value[] values = Value.values();
         Seed[] seeds = Seed.values();
 
+        /*
+        Algoritmo di generazione delle carte
+         */
         for(int i = 0; i < 6; i++){
             Value value = values[random.nextInt(values.length)];
             Seed seed = seeds[random.nextInt(seeds.length)];
