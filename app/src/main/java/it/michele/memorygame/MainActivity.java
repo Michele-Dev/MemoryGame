@@ -1,6 +1,7 @@
 package it.michele.memorygame;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
 
 import android.annotation.SuppressLint;
 import android.graphics.drawable.Drawable;
@@ -9,6 +10,7 @@ import android.widget.ImageView;
 
 import java.util.LinkedList;
 import java.util.Random;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import it.michele.memorygame.assets.Seed;
 import it.michele.memorygame.assets.Value;
@@ -26,12 +28,17 @@ public class MainActivity extends AppCompatActivity {
     public static int revealed = 0;
     public static Card revealed_Card;
     public static Drawable back;
+    public static AtomicInteger guessedCards = new AtomicInteger(0);
+
+    private static FragmentManager fragmentManager;
 
     @SuppressLint("UseCompatLoadingForDrawables")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        fragmentManager = getSupportFragmentManager();
 
         imageViews[0][0] = findViewById(R.id.uno);
         imageViews[0][1] = findViewById(R.id.due);
@@ -73,5 +80,16 @@ public class MainActivity extends AppCompatActivity {
                 }
             } while (cycle);
         }
+    }
+
+    /*
+    Viene eseguito quando l'utente vince
+     */
+    public static void win(){
+        /*
+        Mostra il Dialog creato precedentemente nella classe WinDialog
+         */
+        WinDialog winDialog = new WinDialog();
+        winDialog.show(fragmentManager, "win dialog");
     }
 }

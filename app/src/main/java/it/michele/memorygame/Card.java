@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
+import android.os.Handler;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -18,6 +19,11 @@ public class Card {
     private Drawable drawable;
     private Value value;
     private Seed seed;
+    /*
+    Handler ci permette di eseguire del codice sul Main Thread anche se ci troviamo su un
+    altro Thread
+     */
+    private Handler mainHandler;
 
     /*
     Variabile di lock, per gestire l'esecuzione dei Thread.
@@ -31,7 +37,7 @@ public class Card {
         this.imageView = imageView;
         this.value = value;
         this.seed = seed;
-
+        mainHandler = new Handler(context.getMainLooper());
         /*
         Otteniamo il drawable (L'immagine) della carta dall'Enumeratore
         Value e Seed
@@ -67,11 +73,18 @@ public class Card {
                         }
                         if (value.equals(MainActivity.revealed_Card.getValue()) &&
                                 seed.equals(MainActivity.revealed_Card.getSeed())) {
-                            this.imageView.setVisibility(View.INVISIBLE);
-                            MainActivity.revealed_Card.getImageView().setVisibility(View.INVISIBLE);
+                            mainHandler.post(() -> {
+                                this.imageView.setVisibility(View.INVISIBLE);
+                                MainActivity.revealed_Card.getImageView().setVisibility(View.INVISIBLE);
+                            });
+                            if(MainActivity.guessedCards.incrementAndGet() == 6){
+                                MainActivity.win();
+                            }
                         } else {
-                            setImage(MainActivity.back);
-                            MainActivity.revealed_Card.setImage(MainActivity.back);
+                            mainHandler.post(() -> {
+                                setImage(MainActivity.back);
+                                MainActivity.revealed_Card.setImage(MainActivity.back);
+                            });
                         }
                         lock.set(false);
                     }).start();
