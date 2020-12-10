@@ -12,6 +12,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 import it.michele.memorygame.assets.Seed;
 import it.michele.memorygame.assets.Value;
+import it.michele.memorygame.fragments.GameFragment;
 
 public class Card {
 
@@ -78,7 +79,14 @@ public class Card {
                                 MainActivity.revealed_Card.getImageView().setVisibility(View.INVISIBLE);
                             });
                             if(MainActivity.guessedCards.incrementAndGet() == 6){
-                                MainActivity.win();
+                                mainHandler.post(() -> {
+                                    MainActivity.win(
+                                (System.currentTimeMillis() - GameFragment.startTime)/1000
+                                    );
+                                });
+                                // 1*10^-3 ->  1s = 1000ms;  1ms = 0,001s; System.currentTimeMills();
+                                // 1*10^-9 -> 1s = 1.000.000.000ns; System.nanoTime();
+
                             }
                         } else {
                             mainHandler.post(() -> {
