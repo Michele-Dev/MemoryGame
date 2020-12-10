@@ -62,6 +62,14 @@ public class MainActivity extends AppCompatActivity {
         } catch (IOException e){
             e.printStackTrace();
         }
+
+        /*
+        Reset delle variabili globali
+         */
+
+        revealed = 0;
+        revealed_Card = null;
+        guessedCards.set(0);
         /*
         Mostra il Dialog creato precedentemente nella classe WinDialog
          */

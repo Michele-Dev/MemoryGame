@@ -60,9 +60,11 @@ public class WinFragment extends Fragment {
          */
         try(BufferedReader reader = new BufferedReader(isr)){
             String line = reader.readLine();
+            int lineNumber = 1;
             while (line != null){
-                stringBuilder.append(line).append("\n");
+                stringBuilder.append(lineNumber).append(". ").append(line).append("\n");
                 line = reader.readLine();
+                lineNumber++;
             }
         } catch (IOException e){
             e.printStackTrace();
